@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A responsive image compression tool with adjustable compression levels. Optimize images dynamically with vibrant UI/UX.">
+  <meta name="keywords" content="image compression, optimize images, responsive tool, image optimization, colorful UI">
+  <meta name="author" content="Your Name">
+  <title>Dynamic Image Compression Tool</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+      color: #333;
+      text-align: center;
+      padding: 20px;
+      transition: background 0.5s ease;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #fff;
+      margin-top: 10px;
+    }
+
+    /* Advertisement Section */
+    #ads {
+      margin: 20px 0;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .ad-placeholder {
+      min-height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
+      border: 1px dashed #ccc;
+    }
+
+    /* Tool Section */
+    #tool {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: 0 auto;
+      transition: transform 0.3s ease;
+    }
+
+    #tool:hover {
+      transform: scale(1.02);
+    }
+
+    .upload-section, .compression-level, .preview-section {
+      margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+      padding: 10px;
+      border: 2px solid #ff6f61;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+      border-color: #ff4d4d;
+    }
+
+    input[type="range"] {
+      width: 80%;
+      margin: 10px auto;
+      accent-color: #ff6f61;
+    }
+
+    #slider-value {
+      display: block;
+      margin-top: 5px;
+      font-size: 1.2rem;
+      color: #ff6f61;
+      font-weight: bold;
+    }
+
+    #image-preview {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      gap: 20px;
+    }
+
+    #image-preview img {
+      max-width: 45%;
+      height: auto;
+      border: 2px solid #ff6f61;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    #image-preview img:hover {
+      transform: scale(1.05);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff4d4d;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dynamic Image Compression Tool</h1>
+    <p>Optimize your images with adjustable compression levels.</p>
+  </header>
+
+  <main>
+    <!-- Advertisement Section -->
+    <section id="ads">
+      <div class="ad-placeholder">
+        <!-- Insert Google AdSense Code Here -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="YYYYYYYYYY"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    </section>
+
+    <!-- Image Compression Tool -->
+    <section id="tool">
+      <div class="upload-section">
+        <h2>Upload Your Image</h2>
+        <input type="file" id="image-input" accept="image/*">
+      </div>
+
+      <div class="compression-level">
+        <h2>Select Compression Level</h2>
+        <input type="range" id="compression-slider" min="10" max="100" value="50">
+        <span id="slider-value">50%</span>
+      </div>
+
+      <div class="preview-section">
+        <h2>Preview</h2>
+        <div id="image-preview">
+          <img id="original-image" alt="Original Image">
+          <img id="compressed-image" alt="Compressed Image">
+        </div>
+        <button id="download-btn" disabled>Download Compressed Image</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Image Compression Tool. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const imageInput = document.getElementById('image-input');
+      const compressionSlider = document.getElementById('compression-slider');
+      const sliderValue = document.getElementById('slider-value');
+      const originalImage = document.getElementById('original-image');
+      const compressedImage = document.getElementById('compressed-image');
+      const downloadBtn = document.getElementById('download-btn');
+
+      // Update slider value dynamically
+      compressionSlider.addEventListener('input', () => {
+        sliderValue.textContent = `${compressionSlider.value}%`;
+      });
+
+      // Handle image upload
+      imageInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            originalImage.src = e.target.result;
+            compressImage(file);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Compress image based on slider value
+      function compressImage(file) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+
+        img.onload = () => {
+          const scale = compressionSlider.value / 100;
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            compressedImage.src = url;
+            downloadBtn.disabled = false;
+
+            // Enable download functionality
+            downloadBtn.onclick = () => {
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = 'compressed-image.jpg';
+              link.click();
+            };
+          }, 'image/jpeg', scale);
+        };
+
+        img.src = URL.createObjectURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
