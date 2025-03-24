@@ -241,6 +241,9 @@
           canvas.width = img.width * scale;
           canvas.height = img.height * scale;
 
+          // Set crossOrigin to avoid CORS issues
+          img.crossOrigin = "anonymous";
+          
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
           canvas.toBlob((blob) => {
@@ -260,7 +263,15 @@
 
         img.src = URL.createObjectURL(file);
       }
+
+      // Update compression when slider changes
+      compressionSlider.addEventListener('input', () => {
+        if (imageInput.files[0]) {
+          compressImage(imageInput.files[0]);
+        }
+      });
     });
   </script>
 </body>
 </html>
+
